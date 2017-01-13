@@ -43,6 +43,7 @@ address: sales@itextpdf.com
 */
 using System;
 using System.Collections.Generic;
+using System.Text;
 using iText.IO.Util;
 
 namespace iText.IO.Font {
@@ -173,6 +174,9 @@ namespace iText.IO.Font {
             >();
 
         static PdfEncodings() {
+#if NETSTANDARD1_6
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+#endif
             //-Encodings--------------------------------------------------------------------------------------------------------
             for (int k = 128; k < 161; ++k) {
                 char c = winansiByteToChar[k];
