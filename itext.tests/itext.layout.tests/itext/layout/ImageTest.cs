@@ -567,5 +567,26 @@ namespace iText.Layout {
             NUnit.Framework.Assert.IsNull(new CompareTool().CompareByContent(outFileName, cmpFileName, destinationFolder
                 , "diff"));
         }
+
+        /// <exception cref="System.IO.IOException"/>
+        /// <exception cref="System.Exception"/>
+        [NUnit.Framework.Test]
+        [LogMessage(iText.IO.LogMessageConstant.ELEMENT_DOES_NOT_FIT_AREA, Count = 3)]
+        public virtual void TiffImageTestTest01() {
+            String outFileName = destinationFolder + "tiffImageTestTest01.pdf";
+            String cmpFileName = sourceFolder + "cmp_tiffImageTestTest01.pdf";
+            String imgPath = sourceFolder + "sample-error-image.JPG";
+            PdfDocument pdfDoc = new PdfDocument(new PdfWriter(outFileName));
+            Document document = new Document(pdfDoc);
+            ImageData id = ImageDataFactory.Create(imgPath);
+            ImageData idAsTiff = ImageDataFactory.CreateTiff(UrlUtil.ToURL(imgPath), true, 1, true);
+            ImageData idAsTiffFalse = ImageDataFactory.CreateTiff(UrlUtil.ToURL(imgPath), false, 1, false);
+            document.Add(new iText.Layout.Element.Image(id));
+            document.Add(new iText.Layout.Element.Image(idAsTiff));
+            document.Add(new iText.Layout.Element.Image(idAsTiffFalse));
+            document.Close();
+            NUnit.Framework.Assert.IsNull(new CompareTool().CompareByContent(outFileName, cmpFileName, destinationFolder
+                , "diff"));
+        }
     }
 }
